@@ -5,13 +5,12 @@ import 'package:flutter_clean_architecture_coin/features/coin/presentation/widge
 import 'package:flutter_clean_architecture_coin/features/coin/presentation/widgets/refresh_widget.dart';
 import 'package:flutter_clean_architecture_coin/features/coin/presentation/widgets/single_list_item.dart';
 import 'package:flutter_clean_architecture_coin/injection.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 class CoinInfoScreen extends StatelessWidget {
   const CoinInfoScreen({super.key});
 
   @override
-  BlocProvider<CoinInfoBloc> build(BuildContext context) {
+  Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl.get<CoinInfoBloc>(),
       child: Scaffold(

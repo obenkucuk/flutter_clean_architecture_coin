@@ -1,32 +1,29 @@
 part of 'coin_info_bloc.dart';
 
-abstract class CoinInfoState extends Equatable {
-  const CoinInfoState();
-
-  @override
-  List<Object> get props => [];
+enum CoinInfoStatus {
+  initial,
+  loading,
+  loaded,
+  error,
+  refresh,
 }
 
-class LoadingCoinInfo extends CoinInfoState {}
+class CoinInfoState extends Equatable {
+  final CoinInfoStatus status;
+  final List<CoinInfo>? coinInfoList;
 
-class LoadedCoinInfo extends CoinInfoState {
-  final List<CoinInfo> coinInfoList;
+  const CoinInfoState({required this.status, required this.coinInfoList});
 
-  const LoadedCoinInfo({required this.coinInfoList});
+  static CoinInfoState initial() => const CoinInfoState(
+        status: CoinInfoStatus.initial,
+        coinInfoList: null,
+      );
 
-  @override
-  List<Object> get props => [
-        coinInfoList,
-      ];
-}
-
-class ErrorCoinInfo extends CoinInfoState {
-  final String message;
-
-  const ErrorCoinInfo({this.message = 'Something went wrong!'});
+  CoinInfoState copyWith({CoinInfoStatus? status, List<CoinInfo>? coinInfoList}) => CoinInfoState(
+        status: status ?? this.status,
+        coinInfoList: coinInfoList ?? this.coinInfoList,
+      );
 
   @override
-  List<Object> get props => [
-        message,
-      ];
+  List<Object?> get props => [status, coinInfoList];
 }

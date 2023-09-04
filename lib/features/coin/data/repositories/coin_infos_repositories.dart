@@ -20,6 +20,8 @@ class CoinInfoRepository implements ICoinInfoRepository {
   Future<Either<Failure, List<CoinInfo>>> getAllCoinInfos() async {
     final connectivityResult = await Connectivity().checkConnectivity();
 
+    print(connectivityResult);
+
     if (connectivityResult == ConnectivityResult.none) {
       try {
         final coinInfoList = await coinInfoLocalDataSource.getAllCoinInfos();

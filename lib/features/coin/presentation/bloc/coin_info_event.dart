@@ -13,3 +13,10 @@ class GetCoinInfo extends CoinInfoEvent {
   @override
   List<Object> get props => [];
 }
+
+class RefreshCoinInfo extends CoinInfoEvent {
+  const RefreshCoinInfo();
+
+  @override
+  List<Object> get props => [];
+}

@@ -15,14 +15,19 @@ class CoinInfoBloc extends Cubit<CoinInfoState> {
   }
 
   Future<void> getCoinInfo(bool isRefresh) async {
+    final previousList = state.coinInfoList;
+
     final coinListOrFailure = await getAllCoinInfo.call();
 
     coinListOrFailure.match(
       (error) => emit(state.copyWith(status: CoinInfoStatus.error)),
-      (coinList) => emit(state.copyWith(
-        status: isRefresh ? CoinInfoStatus.refresh : CoinInfoStatus.loaded,
-        coinInfoList: List.of(coinList),
-      )),
+      (coinList) => emit(
+        state.copyWith(
+          status: isRefresh ? CoinInfoStatus.refresh : CoinInfoStatus.loaded,
+          coinInfoList: List.of(coinList),
+          previousCoinInfoList: List.from(previousList ?? coinList),
+        ),
+      ),
     );
   }
 }

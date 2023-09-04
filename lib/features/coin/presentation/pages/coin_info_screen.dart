@@ -5,6 +5,7 @@ import 'package:flutter_clean_architecture_coin/features/coin/presentation/widge
 import 'package:flutter_clean_architecture_coin/features/coin/presentation/widgets/refresh_widget.dart';
 import 'package:flutter_clean_architecture_coin/features/coin/presentation/widgets/single_list_item.dart';
 import 'package:flutter_clean_architecture_coin/injection.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 class CoinInfoScreen extends StatelessWidget {
   const CoinInfoScreen({super.key});
@@ -37,8 +38,6 @@ class CoinInfoScreen extends StatelessWidget {
                     child: CircularProgressIndicator.adaptive(),
                   );
                 } else if (state.status == CoinInfoStatus.loaded || state.status == CoinInfoStatus.refresh) {
-                  print('Widget loaded yeri');
-
                   return SliverPadding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     sliver: SliverList.builder(
@@ -52,10 +51,11 @@ class CoinInfoScreen extends StatelessWidget {
                                 : Colors.red;
 
                         return SingleListItem(
+                          previousPrice: state.previousCoinInfoList![index].priceUsd,
                           color: color,
                           changePercent24Hr: changePercent24Hr,
                           priceUsd: item.priceUsd,
-                          name: state.status.name,
+                          name: item.name,
                           symbol: item.symbol,
                           volumeUsd24Hr: item.volumeUsd24Hr,
                         );
@@ -64,10 +64,8 @@ class CoinInfoScreen extends StatelessWidget {
                       itemCount: state.coinInfoList!.length,
                     ),
                   );
-                } else if (state.status == CoinInfoStatus.error) {
-                  return const SliverFillRemaining(child: Text('Bilinmeyen bir hata oluştu!'));
                 } else {
-                  return const SliverFillRemaining(child: Text('Bilinmeyen bir hata oluştu!'));
+                  return const SliverFillRemaining(child: Text('Bilinmeyen bir hata oluştu! ErrorState'));
                 }
               },
             )
